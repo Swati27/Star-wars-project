@@ -1,5 +1,4 @@
 import {
-  Link,
   Paper,
   Table,
   TableBody,
@@ -11,7 +10,7 @@ import {
 } from "@material-ui/core";
 
 import React from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Skeleton } from '@mui/material';
 import fetch from "./fetch";
 import { useQuery } from "react-query";
 import { withRouter } from "react-router";
@@ -26,8 +25,6 @@ function Character(props) {
   if (status === "error") return <p>Error :(</p>;
 
   console.info({ data, status, error });
-  const homeworldUrlParts = data.homeworld.split("/").filter(Boolean);
-  const homeworldId = homeworldUrlParts[homeworldUrlParts.length - 1];
 
   if (status !== "success") {
     return null;
@@ -65,23 +62,22 @@ function Character(props) {
               <TableCell>{data.mass}</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell>Homeworld</TableCell>
-              <TableCell>
-                <Homeworld id={homeworldId} />
-              </TableCell>
+              <TableCell>Films</TableCell>
+              <TableCell>{Filmss(data)}</TableCell>
             </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
-      <br />
-      <Typography variant="h4">Films</Typography>
-      {data.films.map((film) => {
-        const filmUrlParts = film.split("/").filter(Boolean);
-        const filmId = filmUrlParts[filmUrlParts.length - 1];
-        return <Film id={filmId} key={`Film-${filmId}`} />;
-      })}
     </div>
   );
+}
+
+function Filmss(data) {
+   return data.films.map((film) => {
+    const filmUrlParts = film.split("/").filter(Boolean);
+    const filmId = filmUrlParts[filmUrlParts.length - 1];
+    return <Film id={filmId} key={`Film-${filmId}`} />;
+  })
 }
 
 function Film(props) {
@@ -90,31 +86,16 @@ function Film(props) {
     fetch(`https://swapi.dev/api/films/${id}/`)
   );
 
-  if (status !== "success") {
-    return null;
-  }
+  if (status === "loading") return <Skeleton variant="text"/>;
+  if (status === "error") return <p>Error :(</p>;
+
   return (
-    <article key={id}>
-      <Link component={RouterLink} to={`/films/${id}`}>
-        <Typography variant="h6">
-          {data.episode_id}. {data.title}
-        </Typography>
-      </Link>
-    </article>
+        <div>
+          {data.title}
+        </div>
   );
 }
 
-function Homeworld(props) {
-  const { id } = props;
-  const { data, status } = useQuery(`homeworld-${id}`, () =>
-    fetch(`https://swapi.dev/api/planets/${id}/`)
-  );
 
-  if (status !== "success") {
-    return null;
-  }
-
-  return data.name;
-}
 
 export default withRouter(Character);
