@@ -1,5 +1,4 @@
 import { CircularProgress } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
 import { Link } from "@material-ui/core";
 import Paper from '@mui/material/Paper';
@@ -11,11 +10,10 @@ import  fetchJson  from '../api/fetchData';
 import { useQuery } from "react-query";
 import { useState } from "react";
 
-export default function Characters(props) {
+function Characters() {
   const { status, data } = useQuery("characters", () =>
   fetchJson(`https://swapi.dev/api/people/`)
   );
-
   const [people, setPeople] =useState([]);
 
   if (status === "loading") return <CircularProgress/>;
@@ -54,11 +52,11 @@ export default function Characters(props) {
       sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}>
        <InputBase id="searchbar" onKeyUp={handleChange} name="searchtxt" type="text" 
         placeholder="Search a Character.." sx={{ ml: 1, flex: 1 }}/>
-        <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
         <SearchIcon/>
-      </IconButton>
       </Paper>
         {people.length>=1 ? displayCharacters(people): displayCharacters(data?.results)}
     </div>
   );
 }
+
+export default Characters
