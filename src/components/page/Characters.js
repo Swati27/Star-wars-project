@@ -2,11 +2,11 @@ import { CircularProgress } from '@mui/material';
 import InputBase from '@mui/material/InputBase';
 import { Link } from "@material-ui/core";
 import Paper from '@mui/material/Paper';
-import  PersonCard  from "./customComponents/PersonCard";
+import  PersonCard  from "../customComponents/PersonCard";
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import SearchIcon from '@mui/icons-material/Search';
-import  fetchJson  from '../api/fetchData';
+import  fetchJson  from '../../api/fetchData';
 import { useQuery } from "react-query";
 import { useState } from "react";
 

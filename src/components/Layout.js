@@ -1,7 +1,7 @@
 import { Route, Link as RouterLink, Switch } from "react-router-dom";
 
-import Character from "./CharacterDetails";
-import Characters from "./Characters";
+import Character from "./page/CharacterDetails";
+import Characters from "./page/Characters";
 import { Link } from "@material-ui/core";
 import React from "react";
 

@@ -1,8 +1,8 @@
 import { CircularProgress } from '@mui/material';
-import  FetchList  from "./FilmsSpeciesList/FetchList";
-import PersonTable from "./customComponents/PersonTable";
+import  FetchList  from "../FilmsSpeciesList/FetchList";
+import PersonTable from "../customComponents/PersonTable";
 import React from "react";
-import  fetchJson  from '../api/fetchData';
+import  fetchJson  from '../../api/fetchData';
 import { useQuery } from "react-query";
 import { withRouter } from "react-router";
 
