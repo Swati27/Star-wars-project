@@ -21,7 +21,7 @@ function Character(props) {
   fetchJson(`https://swapi.dev/api/people/${characterId}/`)
   );
 
-  if (status === "loading") return <Skeleton variant="text"></Skeleton>;
+  if (status === "loading") return <Skeleton variant="text"/>;
   if (status === "error") return <p>Error :(</p>;
 
   if (status !== "success") {
@@ -29,7 +29,7 @@ function Character(props) {
   }
   return (
     <div>
-      <Typography variant="h4">{data.name}</Typography>
+      <Typography variant="h4" >{data.name}</Typography>
       <TableContainer component={Paper} style={{ maxWidth: "400px" }}>
         <Table size="small" aria-label="simple table">
           <TableHead>

@@ -35,6 +35,7 @@ const theme = createTheme({
     },
     h4: {
       fontFamily: "Roboto Mono, monospace",
+      margin: 'revert'
     },
     h5: {
       fontFamily: "Roboto Mono, monospace",
