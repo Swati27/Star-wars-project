@@ -10,12 +10,17 @@ export default function Layout(props) {
     <div className="App">
       <h1>Star Wars World</h1>
       <nav>
+      <Link component={RouterLink} to="/">
+        </Link>
         <Link component={RouterLink} to="/characters">
           <button>Characters</button>
         </Link>
       </nav>
       <div className= "content">
         <Switch>
+        <Route exact path="/">
+            <Characters />
+          </Route>
         <Route exact path="/characters">
             <Characters />
           </Route>
