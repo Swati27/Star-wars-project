@@ -9,6 +9,7 @@ import {
   Typography,
 } from "@material-ui/core";
 
+import { CircularProgress } from '@mui/material';
 import React from "react";
 import { Skeleton } from '@mui/material';
 import  fetchJson  from '../api/fetchData';
@@ -21,7 +22,7 @@ function Character(props) {
   fetchJson(`https://swapi.dev/api/people/${characterId}/`)
   );
 
-  if (status === "loading") return <Skeleton variant="text"/>;
+  if (status === "loading") return <CircularProgress />;
   if (status === "error") return <p>Error :(</p>;
 
   if (status !== "success") {

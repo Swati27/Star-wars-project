@@ -2,8 +2,9 @@ import "./styles.css";
 
 import { QueryClient, QueryClientProvider } from "react-query";
 
-import Layout from "./Layout";
+import Layout from "./components/Layout";
 import React from "react";
+import { ReactQueryDevtools } from "react-query/devtools";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ThemeProvider } from "@material-ui/core";
 import { createTheme } from "@material-ui/core/styles";
@@ -16,6 +17,7 @@ export default function App() {
       <Router>
         <ThemeProvider theme={theme}>
           <Layout />
+          <ReactQueryDevtools initialIsOpen="false" />
         </ThemeProvider>
       </Router>
     </QueryClientProvider>
