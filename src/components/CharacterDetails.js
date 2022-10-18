@@ -11,27 +11,25 @@ import {
 
 import React from "react";
 import { Skeleton } from '@mui/material';
-import fetch from "./fetch";
+import  fetchJson  from '../api/fetchData';
 import { useQuery } from "react-query";
 import { withRouter } from "react-router";
 
 function Character(props) {
   const characterId = props.match.params.characterId;
-  const { status, error, data } = useQuery(`character-${characterId}`, () =>
-    fetch(`https://swapi.dev/api/people/${characterId}/`)
+  const { status, data } = useQuery(`character-${characterId}`, () =>
+  fetchJson(`https://swapi.dev/api/people/${characterId}/`)
   );
 
-  if (status === "loading") return <p>Loading...</p>;
+  if (status === "loading") return <Skeleton variant="text"></Skeleton>;
   if (status === "error") return <p>Error :(</p>;
-
-  console.info({ data, status, error });
 
   if (status !== "success") {
     return null;
   }
   return (
     <div>
-      <Typography variant="h2">{data.name}</Typography>
+      <Typography variant="h4">{data.name}</Typography>
       <TableContainer component={Paper} style={{ maxWidth: "400px" }}>
         <Table size="small" aria-label="simple table">
           <TableHead>
@@ -41,10 +39,6 @@ function Character(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow>
-              <TableCell>Born</TableCell>
-              <TableCell>{data.birth_year}</TableCell>
-            </TableRow>
             <TableRow>
               <TableCell>Eyes</TableCell>
               <TableCell>{data.eye_color}</TableCell>
@@ -63,7 +57,11 @@ function Character(props) {
             </TableRow>
             <TableRow>
               <TableCell>Films</TableCell>
-              <TableCell>{Filmss(data)}</TableCell>
+              <TableCell>{getList(data,'films')}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Species</TableCell>
+              <TableCell>{getList(data,'species')}</TableCell>
             </TableRow>
           </TableBody>
         </Table>
@@ -72,26 +70,25 @@ function Character(props) {
   );
 }
 
-function Filmss(data) {
-   return data.films.map((film) => {
-    const filmUrlParts = film.split("/").filter(Boolean);
-    const filmId = filmUrlParts[filmUrlParts.length - 1];
-    return <Film id={filmId} key={`Film-${filmId}`} />;
+function getList(data, flag) {
+   const dataList= (flag==='films') ? data?.films : data?.species;
+   return dataList.map((field) => {
+    const fieldUrlParts = field.split("/").filter(Boolean);
+    const fieldId = fieldUrlParts[fieldUrlParts.length - 1];
+    return <FetchList id={fieldId} key={`Film-${fieldId}` } flag={flag}/>;
   })
 }
 
-function Film(props) {
-  const { id } = props;
-  const { data, status } = useQuery(`film-${id}`, () =>
-    fetch(`https://swapi.dev/api/films/${id}/`)
+function FetchList(props) {
+  const { id, flag } = props;
+  const { data, status } = useQuery(`${flag}-${id}`, () =>
+    fetchJson(`https://swapi.dev/api/${flag}/${id}/`)
   );
-
   if (status === "loading") return <Skeleton variant="text"/>;
   if (status === "error") return <p>Error :(</p>;
-
   return (
         <div>
-          {data.title}
+          {flag==='films'? data.title: data?.name}
         </div>
   );
 }
